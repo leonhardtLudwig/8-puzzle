@@ -15,7 +15,7 @@ public class Board {
         this.parent = null;
     }
 
-    private Board(int[][]tiles, Board parent){
+    public Board(int[][]tiles, Board parent){
         this.tiles = tiles;
         this.parent = parent;
         this.moves = parent.moves+1;
@@ -60,5 +60,36 @@ public class Board {
         return moves;
     }
 
+    public int dimension(){
+        return dimension;
+    }
+
+    public int[][]tiles(){
+        return tiles;
+    }
+
+    public boolean notEqualsAncient(){
+        boolean found = false;
+        Board ancient = parent;
+        while(ancient!=null && !found){
+            boolean eq = true;
+            int[][]ancTiles = ancient.tiles();
+            for(int row = 0; row<dimension && eq;row++){
+                for(int col = 0; col<dimension && eq;col++){
+                    eq = ancTiles[row][col] == tiles[row][col];
+                }
+            }
+
+            found = eq;
+
+            ancient = ancient.parent;
+
+        }
+        return !found;
+    }
+
+    public Board parent(){
+        return parent;
+    }
     
 }
