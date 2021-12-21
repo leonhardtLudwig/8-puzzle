@@ -6,8 +6,6 @@ public class Board {
     private int moves;
     private static int dimension;
 
-    // create a board from an n-by-n array of tiles,
-    // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles) {
         this.tiles = tiles;
         dimension = tiles.length;
@@ -21,7 +19,6 @@ public class Board {
         this.moves = parent.moves+1;
     }
 
-    // string representation of this board
     public String toString() {
         //questo toString è leggermente più complicato per fare in modo di ottenere
         //una stringa che non abbia spazi alla fine
@@ -79,11 +76,8 @@ public class Board {
                     eq = ancTiles[row][col] == tiles[row][col];
                 }
             }
-
             found = eq;
-
             ancient = ancient.parent;
-
         }
         return !found;
     }
