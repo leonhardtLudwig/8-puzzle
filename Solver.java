@@ -19,7 +19,8 @@ public class Solver {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        //Scanner in = new Scanner(new File("unsolvableN4i1b3.txt"));
+        // Scanner in = new Scanner(new File("unsolvableN4i1b3.txt"));
+        long initTime = System.currentTimeMillis();
         Scanner in = new Scanner(new File(args[0]));
         int n = in.nextInt();
         int[][] tiles = new int[n][n];
@@ -55,46 +56,52 @@ public class Solver {
             while (!path.isEmpty()) {
                 System.out.println(path.pop());
             }
-        }else{
+            long endingTime = System.currentTimeMillis();
+            System.out.println(endingTime - initTime + " ms needed to solve the board");
+        } else {
             System.out.println("Unsolvable");
         }
+
     }
 
-    public static boolean isSolvable(int[][]tiles) {
+    public static boolean isSolvable(int[][] tiles) {
         int dim = tiles.length;
-        int[] rmo = new int[(dim*dim)-1]; //row major order array
-        for(int r = 0, i=0; r < dim; r++){
-            for(int c = 0; c< dim; c++){
-                if(tiles[r][c]!=0){
-                    rmo[i++]= tiles[r][c];
+        int[] rmo = new int[(dim * dim) - 1]; // row major order array
+        for (int r = 0, i = 0; r < dim; r++) {
+            for (int c = 0; c < dim; c++) {
+                if (tiles[r][c] != 0) {
+                    rmo[i++] = tiles[r][c];
                 }
             }
         }
         boolean solvable = true;
-        if(dim%2==0){ //if even
+        if (dim % 2 == 0) { // if even
             int inv = calcInversions(rmo);
-            int[]blankPos = blankPosition(tiles);
-            if((blankPos[0]+inv)%2==0)solvable=false;
-        }else{ //if odd
+            int[] blankPos = blankPosition(tiles);
+            if ((blankPos[0] + inv) % 2 == 0)
+                solvable = false;
+        } else { // if odd
             int inv = calcInversions(rmo);
-            if(inv%2!=0)solvable=false;
+            if (inv % 2 != 0)
+                solvable = false;
         }
-        
+
         return solvable;
     }
 
-    public static int calcInversions(int[]x){
+    public static int calcInversions(int[] x) {
         int inversions = 0;
         int dim = x.length;
-        for(int i = 0; i<dim;i++){
-            for(int j = i; j<dim;j++){
-                if(x[i]>x[j])inversions++;
+        for (int i = 0; i < dim; i++) {
+            for (int j = i; j < dim; j++) {
+                if (x[i] > x[j])
+                    inversions++;
             }
         }
         return inversions;
     }
 
-    public static int[] blankPosition(int[][]tiles){
+    public static int[] blankPosition(int[][] tiles) {
         int[] blankPos = { -1, -1 };
         boolean foundBlank = false;
         int dim = tiles.length;
@@ -114,7 +121,7 @@ public class Solver {
         List<Board> b = new ArrayList<Board>();
         int dim = board.dimension();
         int[][] tiles = board.tiles();
-        int[]blankPos= blankPosition(tiles);
+        int[] blankPos = blankPosition(tiles);
         String[] possibileMoves = { "down", "up", "right", "left" };
         if (blankPos[0] == 0)
             possibileMoves[0] = ""; // can't move down
